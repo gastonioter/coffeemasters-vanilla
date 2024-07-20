@@ -1,6 +1,6 @@
 const Store = {
-    menu:null,
-    cart:[]
-}
+  menu: null,
+  cart: [],
+};
 
 export default Store;

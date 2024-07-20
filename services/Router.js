@@ -1,24 +1,37 @@
+const routes = [];
+
 const Router = {
-  init() {
-    document.querySelectorAll(".navlink").forEach(enhanceLink.bind(this));
-    this.go(location.pathname);
-    listenForURLChanges();
-  },
-
-  go(route, addToHistory = true) {
-    if (addToHistory) {
-      history.pushState({ route }, "", route);
-    }
-
-    renderContent(route);
-  },
+  init,
+  go,
 };
 
 export default Router;
 
+function init() {
+  document.querySelectorAll(".navlink").forEach(enhanceLink);
+  go(location.pathname);
+  listenForURLChanges();
+}
+
+function go(route, addToHistory = true) {
+  if (addToHistory) {
+    history.pushState({ route }, null, route);
+  }
+
+  renderContent(route);
+}
+
 function listenForURLChanges() {
   window.addEventListener("popstate", (e) => {
-    Router.go(e.state.route, false);
+    go(e.state.route, false);
+  });
+}
+
+function enhanceLink(a) {
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const goto = e.target.getAttribute("href");
+    go(goto, true);
   });
 }
 
@@ -45,12 +58,4 @@ function renderContent(route) {
     document.querySelector("main").children[0]?.remove();
     document.querySelector("main").appendChild(pageContent);
   }
-}
-
-function enhanceLink(a) {
-  a.addEventListener("click", (e) => {
-    e.preventDefault();
-    const goto = e.target.getAttribute("href");
-    this.go(goto, true);
-  });
 }
