@@ -1,4 +1,8 @@
-const routes = [];
+// TODO: ACCEPT A LIST OF ROUTES
+
+// TODO: ACCEPT COMPONENTS TO RENDER ON EACH ROUTE
+
+//const routes = [];
 
 const Router = {
   init,
@@ -38,13 +42,11 @@ function enhanceLink(a) {
 function renderContent(route) {
   switch (route) {
     case "/":
-      var pageContent = document.createElement("h1");
-      pageContent.textContent = "Menu";
+      var pageContent = document.createElement("menu-page");
       break;
 
     case "/order":
-      var pageContent = document.createElement("h1");
-      pageContent.textContent = "Order";
+      var pageContent = document.createElement("order-page");
 
       break;
 
