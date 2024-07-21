@@ -10,12 +10,13 @@ export class ProductItem extends HTMLElement {
     const template = document.getElementById("product-item-template");
     const content = template.content.cloneNode(true);
     this.appendChild(content);
-
-    const data = JSON.parse(this.dataset.product);
-    this.render(data);
+    this.render();
   }
 
-  render({ id, name, price, image }) {
+  render() {
+    const data = JSON.parse(this.dataset.product);
+    const { id, name, price, image } = data;
+
     this.querySelector("h4").textContent = name;
     this.querySelector("p.price").textContent = price;
     this.querySelector("img").src = `data/images/${image}`;

@@ -6,23 +6,25 @@ import { MenuPage } from "./components/MenuPage.js";
 import { OrderPage } from "./components/OrderPage.js";
 import { DetailsPage } from "./components/DetailsPage.js";
 import { ProductItem } from "./components/ProductItem.js";
-import { totalItems } from "./services/Order.js";
+import { CartItem } from "./components/CartItem.js";
 
-HTMLElement.prototype.on = (a, b, c) => this.addEventListener(a, b, c);
-HTMLElement.prototype.off = (a, b) => this.removeEventListener(a, b);
-HTMLElement.prototype.$ = (s) => this.querySelector(s);
-HTMLElement.prototype.$ = (s) => this.querySelectorAll(s);
+import { getTotalItems } from "./services/Order.js";
 
-window.addEventListener("DOMContentLoaded", async function init() {
+window.addEventListener("DOMContentLoaded", init);
+
+window.addEventListener("carthaschanged", updateBadge);
+
+async function init() {
   loadMenu();
   Router.init();
-});
+}
 
-window.addEventListener("carthaschanged", (event) => {
+function updateBadge() {
   const badge = document.getElementById("badge");
-  const total = totalItems();
+
+  const total = getTotalItems();
 
   badge.hidden = total == 0;
 
-  badge.textContent = totalItems();
-});
+  badge.textContent = total;
+}

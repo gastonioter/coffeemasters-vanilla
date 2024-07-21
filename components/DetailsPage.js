@@ -1,4 +1,5 @@
 import { loadProductById } from "../services/Menu.js";
+import { addToCart } from "../services/Order.js";
 import Router from "../services/Router.js";
 
 export class DetailsPage extends HTMLElement {
@@ -25,27 +26,34 @@ export class DetailsPage extends HTMLElement {
     this.render();
   }
 
+  back(e) {
+    e.preventDefault();
+    Router.go("/");
+  }
   async render() {
     if (!this.dataset.productId) return;
 
     const product = await loadProductById(this.dataset.productId);
 
-    if (!product) return;
+    if (!product) {
+      alert("invalid ID");
+      return;
+    }
 
-    this.root.querySelector("a").addEventListener("click", (e) => {
-      e.preventDefault();
-      Router.go("/");
-    });
+    this.root.querySelector("a").addEventListener("click", this.back);
+
     const { id, name, description, price, image } = product;
-    console.log(product);
 
     this.root.querySelector("h2").textContent = name;
     this.root.querySelector("img").src = `/data/images/${image}`;
     this.root.querySelector(".description").textContent = description;
     this.root.querySelector(".price").textContent = `$ ${price.toFixed(2)}`;
-    this.root.querySelector("button").addEventListener("click", () => {
-      Router.go("/order");
-    });
+    this.root
+      .querySelector("button")
+      .addEventListener("click", function handleAddToCartBtn() {
+        addToCart(id);
+        Router.go("/order");
+      });
   }
 }
 

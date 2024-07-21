@@ -9,7 +9,7 @@ const storeHandler = {
 
     switch (property) {
       case "menu":
-        window.dispatchEvent(new Event("menuhaschanged", { data: newValue }));
+        window.dispatchEvent(new Event("menuhaschanged"));
         break;
       case "cart":
         window.dispatchEvent(new Event("carthaschanged"));

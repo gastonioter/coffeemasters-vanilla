@@ -35,31 +35,31 @@ function enhanceLink(a) {
   a.addEventListener("click", (e) => {
     e.preventDefault();
     const goto = e.target.getAttribute("href");
-    go(goto, true);
+    go(goto);
   });
 }
 
 function renderContent(route) {
   switch (route) {
     case "/":
-      var pageContent = document.createElement("menu-page");
+      var page = document.createElement("menu-page");
       break;
 
     case "/order":
-      var pageContent = document.createElement("order-page");
+      var page = document.createElement("order-page");
 
       break;
 
     default:
       if (route.startsWith("/product-")) {
-        var pageContent = document.createElement("details-page");
-        pageContent.dataset.productId = route.split("-")[1];
+        var page = document.createElement("details-page");
+        page.dataset.productId = route.split("-")[1];
       }
   }
 
-  if (pageContent != null) {
+  if (page != null) {
+    // ATTACHE ELEMENT (PAGE) TO THE DOM
     document.querySelector("main").innerHTML = "";
-    document.querySelector("main").children[0]?.remove();
-    document.querySelector("main").appendChild(pageContent);
+    document.querySelector("main").appendChild(page);
   }
 }

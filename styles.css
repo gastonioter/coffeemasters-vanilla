@@ -14,9 +14,7 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
 }
-button {
-  cursor: pointer;
-}
+
 body > header {
   position: fixed;
   width: 100%;

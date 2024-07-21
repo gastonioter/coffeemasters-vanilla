@@ -16,9 +16,9 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
     />
 
-    <link rel="preload" href="components/DetailsPage.css" as="stylesheet" />
-    <link rel="preload" href="components/MenuPage.css" as="stylesheet" />
-    <link rel="preload" href="" as="stylesheet" />
+    <link rel="preload" href="components/DetailsPage.css" as="style" />
+    <link rel="preload" href="components/MenuPage.css" as="style" />
+    <link rel="preload" href="components/OrderPage.css" as="style" />
 
     <script src="./app.js" defer type="module"></script>
 
@@ -49,6 +49,7 @@
     <main></main>
 
     <template id="menu-page-template">
+      <link rel="stylesheet" href="./components/MenuPage.css" />
       <section>
         <ul id="menu"></ul>
       </section>
@@ -84,6 +85,7 @@
     </template>
 
     <template id="details-page-template">
+      <link rel="stylesheet" href="./components/DetailsPage.css" />
       <header>
         <a href="">&lt; Back</a>
         <h2></h2>
@@ -96,12 +98,13 @@
     </template>
 
     <template id="cart-item-template">
+      <link rel="stylesheet" href="./components/cartItem.css" />
       <li>
         <p class="qty"></p>
         <p class="name"></p>
         <p class="price"></p>
         <p class="toolbar">
-          <a href="#" class="delete-button"> 🗑️ </a>
+          <a href="" class="delete-button"> 🗑️ </a>
         </p>
       </li>
     </template>

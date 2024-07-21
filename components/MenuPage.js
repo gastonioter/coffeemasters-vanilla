@@ -11,7 +11,7 @@ export class MenuPage extends HTMLElement {
     const toRender = template.content.cloneNode(true);
     this.root.appendChild(toRender);
 
-    loadCSS.call(this);
+    //loadCSS.call(this);
 
     async function loadCSS() {
       const styleEl = document.createElement("style");
@@ -23,16 +23,20 @@ export class MenuPage extends HTMLElement {
   }
 
   connectedCallback() {
+    // this hook is triggerd when this element gets attached to de DOM;
     window.addEventListener("menuhaschanged", this.listener);
+    this.render();
   }
 
   disconnectedCallback() {
-    window.removeEventListener("menuhaschanged", this.listener);
+    // this hook is triggerd when this element gets removed from the DOM.
+    //window.removeEventListener("menuhaschanged", this.listener);
   }
 
   render() {
     const menuEl = this.root.querySelector("#menu");
-
+    //debugger;
+    menuEl.innerHTML = "";
     if (Store.menu) {
       for (const category of Store.menu) {
         const liCategory = document.createElement("li");
@@ -48,6 +52,7 @@ export class MenuPage extends HTMLElement {
           procutItemEl.dataset.product = JSON.stringify(product);
           liCategory.querySelector(".category").appendChild(procutItemEl);
         });
+        //return;
       }
     } else {
       menuEl.innerHTML = "Loading...";
