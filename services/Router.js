@@ -51,12 +51,14 @@ function renderContent(route) {
       break;
 
     default:
-      // 404 Component
-      break;
+      if (route.startsWith("/product-")) {
+        var pageContent = document.createElement("details-page");
+        pageContent.dataset.productId = route.split("-")[1];
+      }
   }
 
   if (pageContent != null) {
-    //document.querySelector('main').innerHTML = ''
+    document.querySelector("main").innerHTML = "";
     document.querySelector("main").children[0]?.remove();
     document.querySelector("main").appendChild(pageContent);
   }

@@ -1,23 +1,32 @@
-const Store = {
+const originalStore = {
   menu: null,
   cart: [],
 };
 
 const storeHandler = {
-  set(target, property) {
+  set(target, property, newValue) {
+    target[property] = newValue;
+
     switch (property) {
       case "menu":
-        window.dispatchEvent(new Event("menuhaschanged"));
+        window.dispatchEvent(new Event("menuhaschanged", { data: newValue }));
         break;
       case "cart":
         window.dispatchEvent(new Event("carthaschanged"));
       default:
         break;
     }
-    // indica exito
+
     return true;
 
+    // indica exito
+  },
+
+  get(target, property) {
+    return target[property];
   },
 };
-const proxiedStore = new Proxy(Store, storeHandler);
+
+const Store = new Proxy(originalStore, storeHandler);
+
 export default Store;
