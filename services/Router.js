@@ -59,7 +59,7 @@ function renderContent(route) {
       }
   }
 
-  if (page != null) {
+  if (page) {
     const currentPage = document.querySelector("main").firstElementChild;
 
     if (!currentPage) {
@@ -68,21 +68,27 @@ function renderContent(route) {
       // make a tranistion between pages
 
       const fadeOutKeyframes = [{ opacity: 1 }, { opacity: 0 }];
-      const fadeInKeyframes = [{ opacity: 0 }, { opacity: 1 }];
 
       const fadeOutAnimation = currentPage.animate(fadeOutKeyframes, {
         duration: 200,
       });
 
-      fadeOutAnimation.addEventListener("finish", () => {
-        currentPage.remove();
+      fadeOutAnimation.addEventListener("finish", renderNewPage);
+    }
 
-        document.querySelector("main").appendChild(page);
+    function renderNewPage() {
+      const fadeInKeyframes = [{ opacity: 0 }, { opacity: 1 }];
+      currentPage.remove();
 
-        page.animate(fadeInKeyframes, {
-          duration: 150,
-        });
+      document.querySelector("main").appendChild(page);
+
+      page.animate(fadeInKeyframes, {
+        duration: 150,
       });
     }
+  } else {
+    document
+      .querySelector("main")
+      .insertAdjacentHTML("beforeend", `<h1>Ups 404 Error: Unknow page</h1>`);
   }
 }

@@ -1,6 +1,10 @@
 import { loadProductById } from "./Menu.js";
 import Store from "./Store.js";
 
+export function placeOrder() {
+  Store.cart = [];
+  
+}
 export async function addToCart(id) {
   if (!id) return;
 

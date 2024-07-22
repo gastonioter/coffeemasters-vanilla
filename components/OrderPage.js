@@ -1,5 +1,6 @@
+import { placeOrder } from "../services/Order.js";
 import Store from "../services/Store.js";
-
+import Router from "../services/Router.js";
 //let cache;
 
 export class OrderPage extends HTMLElement {
@@ -116,12 +117,23 @@ export class OrderPage extends HTMLElement {
 
     function handleSubmitForm(e) {
       e.preventDefault();
-      alert(
-        `Thanks for your order ${
-          this.#user.name
-        }. We'll notice you when your order is complete`
-      );
-      this.#user.name = this.#user.email = this.#user.phone = "";
+
+      if (!this.#user.email || !this.#user.phone) {
+        alert(
+          "Please, enter your email and phone to notify you when your order is complete"
+        );
+      } else {
+        alert(
+          `Thanks for your order ${this.#user.name}. ${
+            this.#user.email
+              ? "We'll notice by email you when your order is complete"
+              : ""
+          }`
+        );
+        this.#user.name = this.#user.email = this.#user.phone = "";
+        placeOrder();
+        Router.go("/", false);
+      }
     }
   }
 }
