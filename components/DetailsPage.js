@@ -30,6 +30,7 @@ export class DetailsPage extends HTMLElement {
     e.preventDefault();
     Router.go("/");
   }
+
   async render() {
     if (!this.dataset.productId) return;
 

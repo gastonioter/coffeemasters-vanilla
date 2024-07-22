@@ -3,6 +3,12 @@ let cache;
 
 export class OrderPage extends HTMLElement {
   //listener = this.listenForCartChanges.bind(this);
+  #user = {
+    name: "",
+    phone: "",
+    email: "",
+  };
+
   constructor() {
     super();
 
@@ -48,13 +54,13 @@ export class OrderPage extends HTMLElement {
 
     if (!cart.length) {
       section.innerHTML = `
-          <p class="empty">Your order is empty</p>
+      <p class="empty">Your order is empty</p>
       `;
     } else {
       let orderHTML = `
-          <h2>Your Order</h2>
-          <ul>
-          </ul>
+      <h2>Your Order</h2>
+      <ul>
+      </ul>
       `;
       section.innerHTML = orderHTML;
 
@@ -73,11 +79,46 @@ export class OrderPage extends HTMLElement {
       });
 
       ulEl.innerHTML += `
-            <li>
+      <li>
                 <p class='total'>Total</p>
                 <p class='price-total'>$${total.toFixed(2)}</p>
-            </li>                
-        `;
+                </li>                
+                `;
+    }
+
+    this.setFormBindings(this.root.querySelector("form"));
+  }
+
+  setFormBindings(form) {
+    // set two-way data binding
+
+    form.addEventListener("submit", handleSubmitForm.bind(this));
+
+    Array.from(form.elements).forEach(attachListener.bind(this));
+
+    this.#user = new Proxy(this.#user, {
+      set(target, prop, value) {
+        target[prop] = value;
+        form.elements[prop].value = value;
+        return true;
+      },
+    });
+
+    function attachListener(formElement) {
+      formElement.addEventListener("change", (event) => {
+        this.#user[formElement.name] = event.currentTarget.value;
+      });
+    }
+
+    function handleSubmitForm(e) {
+      e.preventDefault();
+      alert(
+        `Thanks for your order ${
+          this.#user.name
+        }. We'll notice you when your order is complete`
+      );
+      this.#user.name = this.#user.email = this.#user.phone = "";
+      
     }
   }
 }
