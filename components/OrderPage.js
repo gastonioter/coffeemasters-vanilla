@@ -39,7 +39,6 @@ export class OrderPage extends HTMLElement {
 
   connectedCallback() {
     window.addEventListener("carthaschanged", () => {
-      console.log("cart changed: order page");
       this.render();
     });
 
@@ -48,7 +47,6 @@ export class OrderPage extends HTMLElement {
 
   render() {
     const cart = Store.cart;
-    console.log(cart);
 
     let section = this.root.querySelector("section");
 
@@ -84,9 +82,8 @@ export class OrderPage extends HTMLElement {
                 <p class='price-total'>$${total.toFixed(2)}</p>
                 </li>                
                 `;
+      this.setFormBindings(this.root.querySelector("form"));
     }
-
-    this.setFormBindings(this.root.querySelector("form"));
   }
 
   setFormBindings(form) {
@@ -118,7 +115,6 @@ export class OrderPage extends HTMLElement {
         }. We'll notice you when your order is complete`
       );
       this.#user.name = this.#user.email = this.#user.phone = "";
-      
     }
   }
 }
