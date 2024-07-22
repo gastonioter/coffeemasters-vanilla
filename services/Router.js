@@ -13,6 +13,8 @@ export default Router;
 
 function init() {
   document.querySelectorAll(".navlink").forEach(enhanceLink);
+  console.log(location.pathname);
+
   go(location.pathname);
   listenForURLChanges();
 }
@@ -58,8 +60,29 @@ function renderContent(route) {
   }
 
   if (page != null) {
-    // ATTACHE ELEMENT (PAGE) TO THE DOM
-    document.querySelector("main").innerHTML = "";
-    document.querySelector("main").appendChild(page);
+    const currentPage = document.querySelector("main").firstElementChild;
+
+    if (!currentPage) {
+      document.querySelector("main").appendChild(page);
+    } else {
+      // make a tranistion between pages
+
+      const fadeOutKeyframes = [{ opacity: 1 }, { opacity: 0 }];
+      const fadeInKeyframes = [{ opacity: 0 }, { opacity: 1 }];
+
+      const fadeOutAnimation = currentPage.animate(fadeOutKeyframes, {
+        duration: 200,
+      });
+
+      fadeOutAnimation.addEventListener("finish", () => {
+        currentPage.remove();
+
+        document.querySelector("main").appendChild(page);
+
+        page.animate(fadeInKeyframes, {
+          duration: 150,
+        });
+      });
+    }
   }
 }

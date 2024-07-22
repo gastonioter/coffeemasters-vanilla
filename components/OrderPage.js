@@ -1,8 +1,10 @@
 import Store from "../services/Store.js";
-let cache;
+
+//let cache;
 
 export class OrderPage extends HTMLElement {
-  //listener = this.listenForCartChanges.bind(this);
+  listenerCart = this.onCartChange.bind(this);
+
   #user = {
     name: "",
     phone: "",
@@ -37,14 +39,18 @@ export class OrderPage extends HTMLElement {
   //   };
   // }
 
-  connectedCallback() {
-    window.addEventListener("carthaschanged", () => {
-      this.render();
-    });
-
+  onCartChange() {
     this.render();
   }
 
+  connectedCallback() {
+    window.addEventListener("carthaschanged", this.listenerCart);
+    this.render();
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("carthaschanged", this.listenerCart);
+  }
   render() {
     const cart = Store.cart;
 
@@ -67,6 +73,7 @@ export class OrderPage extends HTMLElement {
       section.appendChild(content);
 
       const ulEl = this.root.querySelector("ul");
+
       let total = 0;
 
       cart.forEach((item) => {

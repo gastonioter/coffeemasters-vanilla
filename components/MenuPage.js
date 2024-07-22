@@ -1,7 +1,7 @@
 import Store from "../services/Store.js";
 
 export class MenuPage extends HTMLElement {
-  listener = this.render.bind(this);
+  menuListener = this.onMenuChange.bind(this);
 
   constructor() {
     super();
@@ -22,15 +22,19 @@ export class MenuPage extends HTMLElement {
     }
   }
 
+  onMenuChange() {
+    this.render();
+  }
+
   connectedCallback() {
     // this hook is triggerd when this element gets attached to de DOM;
-    window.addEventListener("menuhaschanged", this.listener);
+    window.addEventListener("menuhaschanged", this.menuListener);
     this.render();
   }
 
   disconnectedCallback() {
     // this hook is triggerd when this element gets removed from the DOM.
-    //window.removeEventListener("menuhaschanged", this.listener);
+    window.removeEventListener("menuhaschanged", this.menuListener);
   }
 
   render() {
