@@ -32,9 +32,9 @@ export class DetailsPage extends HTMLElement {
   }
 
   async render() {
-    if (!this.dataset.productId) return;
+    if (!this.dataset.id) return;
 
-    const product = await loadProductById(this.dataset.productId);
+    const product = await loadProductById(this.dataset.id);
 
     if (!product) {
       alert("invalid ID");

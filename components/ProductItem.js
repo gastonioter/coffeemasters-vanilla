@@ -25,7 +25,7 @@ export class ProductItem extends HTMLElement {
       if (e.target.tagName.toLowerCase() == "button") {
         addToCart(id);
       } else {
-        Router.go(`/product-${id}`);
+        Router.go(`/product/${id}`);
       }
     });
   }

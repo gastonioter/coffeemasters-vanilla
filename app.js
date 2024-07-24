@@ -16,6 +16,21 @@ window.addEventListener("carthaschanged", updateBadge);
 
 async function init() {
   loadMenu();
+  Router.registerRoutes([
+    {
+      path: "/",
+      view: "menu-page",
+    },
+    {
+      path: "/order",
+      view: "order-page",
+    },
+    {
+      path: "/product/:id",
+      view: "details-page",
+    },
+    
+  ]);
   Router.init();
 }
 
