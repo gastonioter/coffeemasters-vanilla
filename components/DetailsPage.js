@@ -6,9 +6,6 @@ export class DetailsPage extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" }); // i create the Shadow DOM
-    const template = document.getElementById("details-page-template");
-    const content = template.content.cloneNode(true);
-    this.root.appendChild(content); // inyect the clone of the template into de Shadow DOM
 
     loadCSS.call(this);
 
@@ -27,7 +24,7 @@ export class DetailsPage extends HTMLElement {
   }
 
   back(e) {
-    e.preventDefault();
+    e?.preventDefault();
     Router.go("/");
   }
 
@@ -37,9 +34,13 @@ export class DetailsPage extends HTMLElement {
     const product = await loadProductById(this.dataset.id);
 
     if (!product) {
-      alert("invalid ID");
-      return;
+      alert("Sorry, this product doesn't exists!");
+      this.back();
     }
+
+    const template = document.getElementById("details-page-template");
+    const content = template.content.cloneNode(true);
+    this.root.appendChild(content); // inyect the clone of the template into de Shadow DOM
 
     this.root.querySelector("a").addEventListener("click", this.back);
 
