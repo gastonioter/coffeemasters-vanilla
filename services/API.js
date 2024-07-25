@@ -1,5 +1,5 @@
 const API = {
-  url: "data/menu.json",
+  url: "/data/menu.json",
 
   async fetchMenu() {
     const resApi = await fetch(this.url);

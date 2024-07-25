@@ -18,13 +18,14 @@ body > header {
   position: fixed;
   width: 100%;
   top: 0;
-  
+  height: 10dvh;
 }
 
 body > main {
   margin: auto;
   margin-top: 60px;
   max-width: 500px;
+  min-height: 90dvh;
 }
 
 h1 {

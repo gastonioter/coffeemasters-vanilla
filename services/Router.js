@@ -1,6 +1,8 @@
 const routes = [];
 let routeParams = {};
 
+console.log(routeParams);
+
 const Router = {
   registerRoutes,
   init,
@@ -16,7 +18,6 @@ function registerRoutes(routesToAdd) {
 }
 function init() {
   document.querySelectorAll(".navlink").forEach(enhanceLink);
-  console.log(location.pathname);
 
   go(location.pathname);
   listenForURLChanges();
@@ -101,31 +102,30 @@ function renderContent(pathname) {
   /* inject to the DOM the view attached to the given pathname */
 
   /* Search for a route that matches the pathname's patten */
-  const route = routes.find(matchPathPattern);
+  let route = routes.find(matchPathPattern);
 
-  if (route) {
-    updateParamsObj(route, pathname);
-
-    const { view } = route;
-
-    const previousView = mainEl.firstElementChild;
-
-    const currentView = document.createElement(view);
-
-    // pass in the params to the view;
-    for (const param in routeParams) {
-      currentView.dataset[param] = routeParams[param];
-    }
-
-    if (previousView) {
-      previousView.remove();
-    }
-
-    mainEl.appendChild(currentView);
-    console.dir(currentView);
-  } else {
-    console.log("404");
+  if (!route) {
+    route = routes[routes.length - 1];
   }
+
+  updateParamsObj(route, pathname);
+
+  const { view } = route;
+
+  const previousView = mainEl.firstElementChild;
+
+  const currentView = document.createElement(view);
+
+  // pass in the params to the view;
+  for (const param in routeParams) {
+    currentView.dataset[param] = routeParams[param];
+  }
+
+  if (previousView) {
+    previousView.remove();
+  }
+
+  mainEl.appendChild(currentView);
 
   function cleanPath(path) {
     // If the path ends with '/', remove it.
@@ -139,8 +139,6 @@ function renderContent(pathname) {
 
   function matchPathPattern(route) {
     pathname = cleanPath(pathname);
-    console.log(pathname);
-    console.log();
 
     const urlSegments = pathname?.split("/").slice(1);
     const routeSegments = route.path?.split("/").slice(1);
@@ -148,12 +146,16 @@ function renderContent(pathname) {
     if (routeSegments.length != urlSegments.length) return false;
 
     // the same length and the same slots?
-    return urlSegments.every((urlSegment, i) => {
+    const match = urlSegments.every((urlSegment, i) => {
       return urlSegment == routeSegments[i] || routeSegments[i].startsWith(":");
     });
+
+    return match;
   }
 
   function updateParamsObj(route, pathname) {
+    if (route.path == "*") return;
+
     const routeSegments = route.path.split("/").slice(1);
     const urlSegments = pathname.split("/").slice(1);
     routeSegments.forEach(function addParams(segment, index) {

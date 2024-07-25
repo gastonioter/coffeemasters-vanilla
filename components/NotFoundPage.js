@@ -2,7 +2,7 @@ export class NotFoundPage extends HTMLElement {
   constructor() {
     super();
 
-    this.root = this.attachShadow({ mode: "close" });
+    this.root = this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {

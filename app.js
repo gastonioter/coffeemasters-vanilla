@@ -30,9 +30,10 @@ async function init() {
       path: "/product/:id",
       view: "details-page",
     },
-    // {
-    //   view: "not-found",
-    // },
+    {
+      path: "*",
+      view: "not-found",
+    },
   ]);
   Router.init();
 }
