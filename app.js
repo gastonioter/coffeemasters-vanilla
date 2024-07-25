@@ -7,6 +7,7 @@ import { OrderPage } from "./components/OrderPage.js";
 import { DetailsPage } from "./components/DetailsPage.js";
 import { ProductItem } from "./components/ProductItem.js";
 import { CartItem } from "./components/CartItem.js";
+import { NotFoundPage } from "./components/NotFoundPage.js";
 
 import { getTotalItems } from "./services/Order.js";
 
@@ -29,7 +30,9 @@ async function init() {
       path: "/product/:id",
       view: "details-page",
     },
-    
+    // {
+    //   view: "not-found",
+    // },
   ]);
   Router.init();
 }

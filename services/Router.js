@@ -1,8 +1,5 @@
-
-
 const routes = [];
 let routeParams = {};
-const mainEl = document.querySelector("main");
 
 const Router = {
   registerRoutes,
@@ -19,6 +16,8 @@ function registerRoutes(routesToAdd) {
 }
 function init() {
   document.querySelectorAll(".navlink").forEach(enhanceLink);
+  console.log(location.pathname);
+
   go(location.pathname);
   listenForURLChanges();
 }
@@ -33,7 +32,7 @@ function go(path, addToHistory = true) {
 
 function listenForURLChanges() {
   window.addEventListener("popstate", (e) => {
-    go(e.state.route, false);
+    go(e.state.path, false);
   });
 }
 
@@ -97,15 +96,17 @@ function enhanceLink(a) {
 //   }
 // }
 
+const mainEl = document.querySelector("main");
 function renderContent(pathname) {
   /* inject to the DOM the view attached to the given pathname */
 
+  /* Search for a route that matches the pathname's patten */
   const route = routes.find(matchPathPattern);
 
   if (route) {
     updateParamsObj(route, pathname);
 
-    const { _, view } = route;
+    const { view } = route;
 
     const previousView = mainEl.firstElementChild;
 
@@ -132,14 +133,17 @@ function renderContent(pathname) {
     if (/[\w]\/$/.test(path)) {
       path = path.slice(0, -1);
     }
+
     return path;
   }
 
   function matchPathPattern(route) {
     pathname = cleanPath(pathname);
+    console.log(pathname);
+    console.log();
 
-    const urlSegments = pathname.split("/").slice(1);
-    const routeSegments = route.path.split("/").slice(1);
+    const urlSegments = pathname?.split("/").slice(1);
+    const routeSegments = route.path?.split("/").slice(1);
 
     if (routeSegments.length != urlSegments.length) return false;
 
@@ -150,8 +154,6 @@ function renderContent(pathname) {
   }
 
   function updateParamsObj(route, pathname) {
-    routeParams = {};
-
     const routeSegments = route.path.split("/").slice(1);
     const urlSegments = pathname.split("/").slice(1);
     routeSegments.forEach(function addParams(segment, index) {
