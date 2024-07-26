@@ -1,7 +1,5 @@
 const routes = [];
-let routeParams = {};
-
-console.log(routeParams);
+const routeParams = {};
 
 const Router = {
   registerRoutes,
@@ -122,26 +120,28 @@ function renderContent(pathname) {
   }
 
   if (previousView) {
-    previousView.remove();
-  }
+    /* make a transition animation */
 
-  mainEl.appendChild(currentView);
-
-  function cleanPath(path) {
-    // If the path ends with '/', remove it.
-    // and remove the first "/"
-    if (/[\w]\/$/.test(path)) {
-      path = path.slice(0, -1);
-    }
-
-    return path;
+    previousView
+      .animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: 200,
+      })
+      .addEventListener("finish", () => {
+        previousView.remove();
+        mainEl.appendChild(currentView);
+        currentView.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 200,
+        });
+      });
+  } else {
+    mainEl.appendChild(currentView);
   }
 
   function matchPathPattern(route) {
     pathname = cleanPath(pathname);
 
-    const urlSegments = pathname?.split("/").slice(1);
-    const routeSegments = route.path?.split("/").slice(1);
+    const urlSegments = pathname.split("/").slice(1);
+    const routeSegments = route.path.split("/").slice(1);
 
     if (routeSegments.length != urlSegments.length) return false;
 
@@ -152,17 +152,27 @@ function renderContent(pathname) {
 
     return match;
   }
+}
 
-  function updateParamsObj(route, pathname) {
-    if (route.path == "*") return;
-
-    const routeSegments = route.path.split("/").slice(1);
-    const urlSegments = pathname.split("/").slice(1);
-    routeSegments.forEach(function addParams(segment, index) {
-      if (segment.startsWith(":")) {
-        segment = segment.slice(1);
-        routeParams[segment] = urlSegments[index];
-      }
-    });
+function cleanPath(path) {
+  // If the path ends with '/', remove it.
+  // and remove the first "/"
+  if (/[\w]\/$/.test(path)) {
+    path = path.slice(0, -1);
   }
+
+  return path;
+}
+
+function updateParamsObj(route, pathname) {
+  if (route.path == "*") return;
+
+  const [, ...routeSegments] = route.path.split("/");
+  const [, ...urlSegments] = pathname.split("/");
+  routeSegments.forEach(function addParams(segment, index) {
+    if (segment.startsWith(":")) {
+      segment = segment.slice(1);
+      routeParams[segment] = urlSegments[index];
+    }
+  });
 }
