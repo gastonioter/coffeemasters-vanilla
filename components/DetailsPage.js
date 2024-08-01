@@ -49,6 +49,8 @@ export class DetailsPage extends HTMLElement {
     this.root.querySelector("h2").textContent = name;
     this.root.querySelector("img").src = `/data/images/${image}`;
     this.root.querySelector(".description").textContent = description;
+    this.root.querySelector("img").style.viewTransitionName = `product-${id}`;
+
     this.root.querySelector(".price").textContent = `$ ${price.toFixed(2)}`;
     this.root
       .querySelector("button")

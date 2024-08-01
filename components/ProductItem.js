@@ -20,6 +20,8 @@ export class ProductItem extends HTMLElement {
     this.querySelector("h4").textContent = name;
     this.querySelector("p.price").textContent = price;
     this.querySelector("img").src = `data/images/${image}`;
+    this.querySelector("img").style.viewTransitionName = `product-${id}`;
+
     this.querySelector("a").addEventListener("click", (e) => {
       e.preventDefault();
       if (e.target.tagName.toLowerCase() == "button") {

@@ -31,15 +31,6 @@ export class OrderPage extends HTMLElement {
     }
   }
 
-  // loadCSS() {
-  //   return async () => {
-  //     if (cache != null) return cache;
-  //     const response = await fetch("/components/OrderPage.css");
-  //     cache = await response.text();
-  //     return cache;
-  //   };
-  // }
-
   onCartChange() {
     this.render();
   }

@@ -9,11 +9,9 @@ import { ProductItem } from "./components/ProductItem.js";
 import { CartItem } from "./components/CartItem.js";
 import { NotFoundPage } from "./components/NotFoundPage.js";
 
-import { getTotalItems } from "./services/Order.js";
+import BadgeView from "./components/Badge.js";
 
 window.addEventListener("DOMContentLoaded", init);
-
-window.addEventListener("carthaschanged", updateBadge);
 
 async function init() {
   loadMenu();
@@ -36,14 +34,4 @@ async function init() {
     },
   ]);
   Router.init();
-}
-
-function updateBadge() {
-  const badge = document.getElementById("badge");
-
-  const total = getTotalItems();
-
-  badge.hidden = total == 0;
-
-  badge.textContent = total;
 }
